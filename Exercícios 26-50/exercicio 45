@@ -1,0 +1,34 @@
+import random
+n1 = str(input('Digite o nome do jogador: '))
+n2 = ['Pedra', 'Papel', 'Tesoura']
+n3 = random.choice(n2)
+n4 = str(input('Digite sua escolha: \n[1] Pedra, \n[2] Papel, \n[3] Tesoura. \nSua escolha: ')).upper()
+verde = '\033[32m'
+vermelho = '\033[31m'
+azul = '\033[34m'
+reset = '\033[0m'
+
+print(f'O computador escolheu {n3}.')
+if n4 == '1':
+    if n3 == 'Pedra':
+        print(f'Você {azul}empatou{reset} {n1}!')
+    elif n3 == 'Papel':
+        print(f'Você {vermelho}perdeu{reset} {n1}!')
+    else:
+        print(f'Você {verde}ganhou{reset} {n1}!')
+elif n4 == '2':
+    if n3 == 'Pedra':
+        print(f'Você ganhou {n1}!')
+    elif n3 == 'Papel':
+        print(f'Você {azul}empatou{reset} {n1}!')
+    else:
+        print(f'Você {vermelho}perdeu{reset} {n1}!')
+elif n4 == '3':
+    if n3 == 'Pedra':
+        print(f'Você {vermelho}perdeu{reset} {n1}!')
+    elif n3 == 'Papel':
+        print(f'Você {verde}ganhou{reset} {n1}!')
+    else:
+        print(f'Você {azul}empatou{reset} {n1}!')
+else:
+    print('Opção inválida!')

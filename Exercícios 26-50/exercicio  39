@@ -1,0 +1,8 @@
+n1 = int(input('Em que ano voce nasceu? '))
+n2 = 2026 - n1
+if n2 < 18:
+    print(f'Voce tem {n2} anos. Ainda faltam {18 - n2} anos para voce se alistar.')
+elif n2 == 18:
+    print(f'Voce tem {n2} anos. Voce deve se alistar IMEDIATAMENTE!')
+else:
+    print(f'Voce tem {n2} anos. Voce ja deveria ter se alistado ha {n2 - 18} anos atras!')

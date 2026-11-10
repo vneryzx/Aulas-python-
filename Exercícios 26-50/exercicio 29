@@ -1,0 +1,7 @@
+n1 = int(input('Digite a velocidade do carro: '))
+if n1 > 80:
+    print('Voce foi multado por excesso de velocidade!')
+    multa = (n1 - 80) * 7
+    print(f'Valor da multa: R${multa:.2f}')
+else:
+    print('Parabéns, você está dentro do limite de velocidade!')

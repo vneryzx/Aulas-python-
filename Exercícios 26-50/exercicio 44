@@ -1,0 +1,10 @@
+n1 = float(input('Digite o valor do produto:'))
+n2 = str(input('Digite a forma de pagamento: \n[A] à vista dinheiro/cheque, \n[B] à vista cartão, \n[C] 2x no cartão, \n[D] 3x ou mais no cartão. \nDigite a forma de pagamento: ')).upper()
+if n2 == 'A':
+    print(f'O valor do produto é R${n1:.2f}. Com o pagamento à vista no dinheiro ou cheque, você tem 10% de desconto. O valor final é R${n1 * 0.9:.2f}.')
+elif n2 == 'B':
+    print(f'O valor do produto é R${n1:.2f}. Com o pagamento à vista no cartão, você tem 5% de desconto. O valor final é R${n1 * 0.95:.2f}.')
+elif n2 == 'C':
+    print(f'O valor do produto é R${n1:.2f}. Com o pagamento em 2x no cartão, o valor final é R${n1:.2f}.')
+elif n2 == 'D':
+    print(f'O valor do produto é R${n1:.2f}. Com o pagamento em 3x ou mais no cartão, você tem 20% de juros. O valor final é R${n1 * 1.2:.2f}.')

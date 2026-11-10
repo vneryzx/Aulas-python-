@@ -1,0 +1,21 @@
+import random
+import time
+print('Bem-vindo ao jogo de adivinhação!')
+print('Estou pensando em um número entre 1 a 10. Você consegue adivinhar?')
+numero_secreto = random.randint(1, 10)
+tentativas = 0
+while True:
+    print('﹌﹌﹌﹌﹌﹌﹌' * 4)
+    palpite = int(input('Digite seu palpite: '))
+    print('Processando seu palpite...')
+    time.sleep(3)
+    tentativas += 1
+    if palpite == numero_secreto:
+        print(f'Parabéns! Você adivinhou o número em {tentativas} tentativas!')
+        break
+    elif palpite < numero_secreto:
+        print('Tente um número maior.')
+    else:
+        print('Tente um número menor.')
+print('Obrigado por jogar! Até a próxima!')
+print('﹌﹌﹌﹌﹌﹌﹌' * 4)

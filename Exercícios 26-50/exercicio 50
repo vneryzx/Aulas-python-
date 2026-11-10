@@ -1,0 +1,11 @@
+import time
+soma = 0 
+cont = 0
+for c in range(1, 7):
+    num = int(input(f'Digite o {c}° número: '))
+    if num % 2 == 0:
+        soma += num
+        cont += 1
+print('\033[1;34mProcessando...\033[m')
+time.sleep(3)
+print(f'Você informou \033[1;32m{cont}\033[m números pares e a soma entre eles é \033[1;32m{soma}\033[m.')

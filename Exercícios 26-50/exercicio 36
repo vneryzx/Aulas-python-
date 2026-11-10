@@ -1,0 +1,11 @@
+import time
+n1 = float(input('Digite o valor da casa:'))
+n2 = float(input('Digite seu salário:'))
+n3 = float(input('Digite em quantos anos pretende pagar:'))
+print('\033[34mCalculando...\033[0m')
+time.sleep(3)
+prestacao = n1 / (n3 * 12)
+print(f'Para pagar uma casa de R${n1:.2f} em {n3:.0f} anos. \nA prestação mensal será de R${prestacao:.2f}.')
+if prestacao > (n2 * 0.3):
+    print('\033[31mEmpréstimo negado!\033[0m')
+else:    print('\033[32mEmpréstimo aprovado!Parabens!\033[0m')

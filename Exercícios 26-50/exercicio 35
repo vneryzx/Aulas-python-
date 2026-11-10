@@ -1,0 +1,9 @@
+print('=-='*10)
+print('Analisador de Triângulos')
+print('=-='*10)
+n1 = int(input('Digite a primeira reta de um triângulo: '))
+n2 = int(input('Digite a segunda reta de um triângulo: '))
+n3 = int(input('Digite a terceira reta de um triângulo: '))
+if n1 < n2 + n3 and n2 < n1 + n3 and n3 < n1 + n2:
+    print('As retas formam um triângulo!')
+else: print('As retas não formam um triângulo!')

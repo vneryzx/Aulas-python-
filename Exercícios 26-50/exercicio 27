@@ -1,0 +1,6 @@
+import time
+n1 = str(input('Digite seu nome completo: ')).strip()
+print('Analisando seu nome...')
+time.sleep(3)
+print('Primeiro nome: {}'.format(n1.split()[0]))
+print('Último nome: {}'.format(n1.split()[-1]))

@@ -1,0 +1,14 @@
+import time
+n1 = int(input('Digite um número inteiro:'))
+n2 = print('Escolha uma das bases para conversão:\n[1] Binário\n[2] Octal\n[3] Hexadecimal')
+n3 = int(input('Sua opção:'))
+print('\033[34mCalculando...\033[0m')
+time.sleep(3)
+if n3 == 1:
+    print(f'{n1} convertido para binário é igual a {bin(n1)[2:]}')
+elif n3 == 2:
+    print(f'{n1} convertido para octal é igual a {oct(n1)[2:]}')
+elif n3 == 3:
+    print(f'{n1} convertido para hexadecimal é igual a {hex(n1)[2:]}')
+else:
+    print('Opção inválida!')

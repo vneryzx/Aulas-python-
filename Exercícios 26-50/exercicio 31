@@ -1,0 +1,5 @@
+n1 = int(input('Qual a distância da viagem em km? '))
+if n1 <= 200:
+    n2 = n1 * 0.50
+    print(f'O valor da passagem é R${n2:.2f}')
+else: print(f'O valor da passagem é R${n1 * 0.45:.2f}')

@@ -1,0 +1,11 @@
+n1 = int(input('Digite o ano em que voce nasceu: '))
+n2 = 2026 - n1
+if n2 <= 9:
+    print(f'Voce tem {n2} anos. Voce é MIRIM!')
+elif n2 > 9 and n2 <= 14:
+    print(f'Voce tem {n2} anos. Voce é INFANTIL!')
+elif n2 > 14 and n2 <= 19:
+    print(f'Voce tem {n2} anos. Voce é JUNIOR!')
+elif n2 > 19 and n2 <= 20:
+    print(f'Voce tem {n2} anos. Voce é SÊNIOR!')
+else:    print(f'Voce tem {n2} anos. Voce é MASTER!')

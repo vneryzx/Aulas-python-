@@ -1,0 +1,4 @@
+n1 = int(input('Digite a nota da p1:'))
+n2 = int(input('Digite a nota da p2:'))
+media = (n1 + n2) / 2
+print(f'A média entre {n1} e {n2} é {media}')

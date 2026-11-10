@@ -1,0 +1,14 @@
+import time
+n1 = str(input('Digite seu nome completo: ')).strip()
+print('-' * 50)
+print('Analisando seu nome...')
+time.sleep(3)
+print('Tem Silva no nome? {}'.format('Silva' in n1.lower().title()))
+if 'Silva' in n1.lower().title():
+    print('Parabéns, você tem o nome Silva!')
+else:
+    print('Que pena, você não tem o nome Silva.')
+print('Procurando posição do nome Silva...')
+time.sleep(3)
+print('O nome Silva começa na posição: {}'.format(n1.lower().title().find('Silva')))
+print('-' * 50)

@@ -1,0 +1,6 @@
+n1 = str(input('Digite sua cidade: ')).strip()
+print('Sua cidade começa com Santo? {}'.format(n1[:5].upper() == 'SANTO'))
+if n1[:5].upper() == 'SANTO':
+     print('Parabéns, sua cidade começa com Santo!')
+else:
+     print('Que pena, sua cidade não começa com Santo.')

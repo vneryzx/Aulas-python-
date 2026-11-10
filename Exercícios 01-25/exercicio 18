@@ -1,0 +1,5 @@
+import math
+n1 = int(input('Digite um angulo:'))
+print(f'O seno de {n1} é {math.sin(math.radians(n1)):.2f}')
+print(f'O cosseno de {n1} é {math.cos(math.radians(n1)):.2f}')
+print(f'A tangente de {n1} é {math.tan(math.radians(n1)):.2f}')

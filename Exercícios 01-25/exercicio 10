@@ -1,0 +1,5 @@
+n1 = float(input('Quanto dinheiro você tem na carteira:'))
+n2 = n1 / 5.19
+n3 = n1 / 6.19
+n4 = n1 / 7.11
+print('Você consegue comprar {:.2f}U$D, {:.2f} euros e {:.2f} libras'.format(n2,n3,n4))

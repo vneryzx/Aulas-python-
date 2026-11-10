@@ -1,0 +1,4 @@
+n1 = float(input('Digite a temperatura em Celsius:'))
+n2 = (n1 * 9/5) + 32
+n3 = (n1 + 273)
+print(f'{n1}°C é equivalente a {n2:.2f}°F e {n3:.2f}K')

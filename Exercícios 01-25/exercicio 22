@@ -1,0 +1,5 @@
+frase = str(input('Digite uma frase: '))
+print('A frase em caps lock é: {}'.format(frase.upper()))
+print('A frase em minúsculas é: {}'.format(frase.lower()))
+print('A frase sem contar os espaços tem {} caracteres.'.format(len(frase) - frase.count(' ')))
+print(f'O primeiro nome da frase tem {frase.find(' ')} letras.')

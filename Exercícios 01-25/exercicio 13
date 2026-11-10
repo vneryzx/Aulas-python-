@@ -1,0 +1,4 @@
+n1 = float(input('Digite o seu salário:'))
+n2 = n1 * 0.15
+n3 = n1 + n2
+print(f'Com um aumento de 15%, seu salário passará a ser {n3:.2f}')

@@ -1,0 +1,21 @@
+frase = 'Curso em Vídeo Python'
+print(frase[9]) # Imprime a letra 'V'
+print(frase[9:14]) # Imprime a palavra 'Vídeo'
+print(frase[9:21]) # Imprime a palavra 'Vídeo Python'
+print(frase[9:21:2]) # Imprime a palavra 'VdoPto'
+print(frase[:5]) # Imprime a palavra 'Curso'
+print(frase[15:]) # Imprime a palavra 'Python'
+print(frase[9::3]) # Imprime a palavra 'VdoPh'
+print(len(frase)) # Imprime o número de caracteres da frase, incluindo os espaços
+print(frase.count('o')) # Imprime o número de vezes que a letra 'o' aparece na frase
+print(frase.count('o', 0, 13)) # Imprime o número de vezes que a letra 'o' aparece na frase, considerando apenas os caracteres de índice 0 a 12
+print(frase.find('deo')) # Imprime o índice onde a palavra 'deo' começa na frase
+print(frase.find('Android')) # Imprime -1, pois a palavra 'Android' não está presente na frase
+print(frase.replace('Python', 'Android')) # Imprime a frase com a palavra 'Python' substituída por 'Android'
+print(frase.upper()) # Imprime a frase em letras maiúsculas
+print(frase.lower()) # Imprime a frase em letras minúsculas
+print(frase.capitalize()) # Imprime a frase com a primeira letra maiúscula e as demais minúsculas
+print(frase.title()) # Imprime a frase com a primeira letra de cada palavra em maiúscula
+print(frase.strip()) # Imprime a frase sem espaços extras no início e no final
+print(frase.split()) # Imprime a frase dividida em uma lista de palavras
+print('-'.join(frase)) # Imprime a frase com os caracteres separados por hífens

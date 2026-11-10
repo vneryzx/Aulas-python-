@@ -1,0 +1,84 @@
+import math
+import time
+import sys
+import os
+
+def render_frame(A, B):
+    
+    screen_width = 80
+    screen_height = 24
+    
+
+    output = [' '] * (screen_width * screen_height)
+    
+    zbuffer = [0] * (screen_width * screen_height)
+
+
+    R1 = 1  
+    R2 = 2   
+    K2 = 5 
+    K1 = screen_width * K2 * 3 / (8 * (R1 + R2)) 
+
+
+    for theta in range(0, 628, 7):
+        ct = math.cos(theta / 100)
+        st = math.sin(theta / 100)
+
+
+        for phi in range(0, 628, 2): 
+            cp = math.cos(phi / 100)
+            sp = math.sin(phi / 100)
+
+            cA = math.cos(A)
+            sA = math.sin(A)
+            cB = math.cos(B)
+            sB = math.sin(B)
+
+
+            circlex = R2 + R1 * ct
+            circley = R1 * st
+
+
+            x = circlex * (cp * cB * cA - sp * sA) - circley * cB * sA
+            y = circlex * (cp * cB * sA + sp * cA) + circley * cB * cA
+            z = K2 + cp * circlex * sB + st * R1 * cB
+            ooz = 1 / z 
+
+            xp = int(screen_width / 2 + K1 * ooz * x)
+            yp = int(screen_height / 2 - K1 * ooz * y)
+
+
+            L = cp * ct * sB - cA * ct * sp - sA * st + cB * (cA * st - ct * sA * sp)
+            
+            if L > 0:
+                if 0 <= xp < screen_width and 0 <= yp < screen_height:
+                    idx = xp + yp * screen_width
+                    if ooz > zbuffer[idx]:
+                        zbuffer[idx] = ooz
+                        
+                        luminance_index = int(L * 8)
+
+                        chars = ".,-~:;=!*#$@"
+                        output[idx] = chars[max(0, min(luminance_index, 11))]
+
+    print("\x1b[H", end='') 
+    for i in range(screen_height):
+        line = "".join(output[i*screen_width : (i+1)*screen_width])
+        print(f"\x1b[36m{line}\x1b[0m")
+
+def main():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    A = 0
+    B = 0
+    try:
+
+        while True:
+            render_frame(A, B)
+            A += 0.04
+            B += 0.02
+            time.sleep(0.01)
+    except KeyboardInterrupt:
+        print("\n\x1b[0mSimulação finalizada.")
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,156 @@
+import math
+import sys
+import time
+import os
+
+def length(x, y, z):
+    return math.sqrt(x*x + y*y + z*z)
+
+def rot_x(y, z, angle):
+    c, s = math.cos(angle), math.sin(angle)
+    return y*c - z*s, y*s + z*c
+
+def rot_y(x, z, angle):
+    c, s = math.cos(angle), math.sin(angle)
+    return x*c + z*s, -x*s + z*c
+
+def rot_z(x, y, angle):
+    c, s = math.cos(angle), math.sin(angle)
+    return x*c - y*s, x*s + y*c
+
+def sdf_torus(px, py, pz, t_major, t_minor):
+    """
+    Função de Distância Sinalizada para um Toro.
+    Retorna a distância exata do ponto (px, py, pz) até a superfície do toro.
+    """
+    q_x = math.sqrt(px**2 + pz**2) - t_major
+    return math.sqrt(q_x**2 + py**2) - t_minor
+
+def map_scene(x, y, z, time_val):
+    """
+    Define a geometria do mundo. Aqui aplicamos rotações ao espaço 
+    antes de calcular a distância, o que faz o objeto girar.
+    """
+    # Rotação combinada nos 3 eixos para um movimento caótico/orgânico
+    rx, rz = rot_y(x, z, time_val * 0.8)
+    rx, ry = rot_z(rx, y, time_val * 0.5)
+    ry, rz = rot_x(ry, rz, time_val * 1.2)
+    
+    # Raio maior = 0.6, Raio menor = 0.25
+    return sdf_torus(rx, ry, rz, 0.6, 0.25)
+
+def get_normal(x, y, z, time_val):
+    """
+    Estima o vetor normal da superfície usando a derivada direcional do SDF.
+    Crucial para calcular como a luz rebate no objeto.
+    """
+    eps = 0.001
+    nx = map_scene(x + eps, y, z, time_val) - map_scene(x - eps, y, z, time_val)
+    ny = map_scene(x, y + eps, z, time_val) - map_scene(x, y - eps, z, time_val)
+    nz = map_scene(x, y, z + eps, time_val) - map_scene(x, y, z - eps, time_val)
+    
+    mag = length(nx, ny, nz)
+    if mag == 0: return 0.0, 0.0, 0.0
+    return nx/mag, ny/mag, nz/mag
+
+def render():
+    # Paleta de caracteres representando a intensidade da luz (do escuro ao claro)
+    chars = " .,-'`:;=i!+*a$@#" 
+    
+    # Configuração de resolução do terminal
+    width = 80
+    height = 40
+    aspect_ratio = width / height
+    pixel_aspect = 11.0 / 24.0 # Proporção física típica de um caractere no terminal
+
+    # Limpa a tela uma vez
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
+
+    start_time = time.time()
+
+    while True:
+        time_val = time.time() - start_time
+        
+        # Buffer de tela para o frame atual
+        frame = []
+        
+        for j in range(height):
+            # Normalização das coordenadas Y da tela para o intervalo [-1, 1]
+            uv_y = (j / height) * 2.0 - 1.0
+            
+            row = []
+            for i in range(width):
+                # Normalização das coordenadas X corrigindo o aspect ratio do texto
+                uv_x = ((i / width) * 2.0 - 1.0) * aspect_ratio * pixel_aspect
+                
+                # Origem do Raio (Câmera)
+                ro_x, ro_y, ro_z = 0.0, 0.0, -2.5
+                
+                # Direção do Raio (Vetor normalizado apontando para o "pixel" da tela)
+                rd_mag = length(uv_x, uv_y, 1.0)
+                rd_x, rd_y, rd_z = uv_x/rd_mag, uv_y/rd_mag, 1.0/rd_mag
+                
+                # O Loop do Raymarching
+                t_dist = 0.0
+                hit = False
+                for _ in range(60): # Máximo de passos do raio
+                    # Ponto atual no espaço 3D (Câmera + Distância * Direção)
+                    p_x = ro_x + rd_x * t_dist
+                    p_y = ro_y + rd_y * t_dist
+                    p_z = ro_z + rd_z * t_dist
+                    
+                    # Distância para o objeto mais próximo
+                    d = map_scene(p_x, p_y, p_z, time_val)
+                    
+                    if d < 0.001: # O raio bateu no objeto!
+                        hit = True
+                        break
+                    
+                    t_dist += d # Avança o raio com segurança
+                    
+                    if t_dist > 5.0: # Passou do objeto, foi para o infinito
+                        break
+                
+                # Se bateu em algo, calculamos a iluminação
+                if hit:
+                    # Direção da luz fixa na cena
+                    light_x, light_y, light_z = 0.5, 0.5, -1.0
+                    l_mag = length(light_x, light_y, light_z)
+                    light_x, light_y, light_z = light_x/l_mag, light_y/l_mag, light_z/l_mag
+                    
+                    # Pegamos a normal da superfície no ponto de colisão
+                    n_x, n_y, n_z = get_normal(p_x, p_y, p_z, time_val)
+                    
+                    # Produto escalar entre a normal e a luz (Lambertian Diffuse)
+                    diffuse = n_x*light_x + n_y*light_y + n_z*light_z
+                    
+                    # Mapeia a iluminação calculada para o índice da nossa string de caracteres
+                    lum = max(0.0, min(1.0, diffuse))
+                    char_idx = int(lum * (len(chars) - 1))
+                    row.append(chars[char_idx])
+                else:
+                    # Fundo do espaço
+                    row.append(' ')
+            
+            frame.append("".join(row))
+        
+        # Move o cursor de volta para o topo esquerdo em vez de limpar a tela (evita cintilação)
+        sys.stdout.write('\x1b[H') 
+        sys.stdout.write("\n".join(frame))
+        sys.stdout.flush()
+        
+        # Controla a taxa de atualização
+        time.sleep(0.03)
+
+if __name__ == "__main__":
+    # Esconde o cursor do terminal para uma visualização mais limpa
+    sys.stdout.write('\x1b[?25l')
+    try:
+        render()
+    except KeyboardInterrupt:
+        # Restaura o cursor ao sair (Ctrl+C)
+        sys.stdout.write('\x1b[?25h')
+        print("\nRenderização interrompida.")

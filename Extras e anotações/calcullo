@@ -1,0 +1,191 @@
+import math
+import ast
+
+# ==========================================
+# 1. MOTOR MATEMÁTICO: Números Duais
+# ==========================================
+class NumeroDual:
+    def __init__(self, real, dual=0.0):
+        self.real = float(real)
+        self.dual = float(dual)
+
+    def __add__(self, outro):
+        outro = outro if isinstance(outro, NumeroDual) else NumeroDual(outro)
+        return NumeroDual(self.real + outro.real, self.dual + outro.dual)
+    def __radd__(self, outro): return self + outro
+
+    def __sub__(self, outro):
+        outro = outro if isinstance(outro, NumeroDual) else NumeroDual(outro)
+        return NumeroDual(self.real - outro.real, self.dual - outro.dual)
+    def __rsub__(self, outro): return NumeroDual(outro) - self
+
+    def __mul__(self, outro):
+        outro = outro if isinstance(outro, NumeroDual) else NumeroDual(outro)
+        return NumeroDual(self.real * outro.real, self.real * outro.dual + self.dual * outro.real)
+    def __rmul__(self, outro): return self * outro
+
+    def __truediv__(self, outro):
+        outro = outro if isinstance(outro, NumeroDual) else NumeroDual(outro)
+        if outro.real == 0: raise ZeroDivisionError("Divisão por zero.")
+        return NumeroDual(self.real / outro.real, (self.dual * outro.real - self.real * outro.dual) / (outro.real ** 2))
+    def __rtruediv__(self, outro): return NumeroDual(outro) / self
+
+    def __pow__(self, expoente):
+        outro = expoente if isinstance(expoente, NumeroDual) else NumeroDual(expoente)
+        novo_real = self.real ** outro.real
+        # Regra geral para f(x)^g(x) usando derivação logarítmica
+        termo1 = outro.real * (self.real ** (outro.real - 1)) * self.dual
+        termo2 = (self.real ** outro.real) * math.log(self.real) * outro.dual if self.real > 0 else 0
+        return NumeroDual(novo_real, termo1 + termo2)
+
+# Funções transcendentes preparadas para o AST e Números Duais
+def sen(x):
+    if isinstance(x, NumeroDual): return NumeroDual(math.sin(x.real), math.cos(x.real) * x.dual)
+    return math.sin(x)
+
+def cos(x):
+    if isinstance(x, NumeroDual): return NumeroDual(math.cos(x.real), -math.sin(x.real) * x.dual)
+    return math.cos(x)
+
+def tan(x):
+    if isinstance(x, NumeroDual): return NumeroDual(math.tan(x.real), (1.0 / math.cos(x.real)**2) * x.dual)
+    return math.tan(x)
+
+def exp(x):
+    if isinstance(x, NumeroDual): return NumeroDual(math.exp(x.real), math.exp(x.real) * x.dual)
+    return math.exp(x)
+
+def ln(x):
+    if isinstance(x, NumeroDual): return NumeroDual(math.log(x.real), (1.0 / x.real) * x.dual)
+    return math.log(x)
+
+# ==========================================
+# 2. COMPILADOR: Avaliador de Árvore AST
+# ==========================================
+class FuncaoDinamica:
+    """
+    Transforma texto humano em lógica computacional executável.
+    Analisa a string matemática e cria um avaliador recursivo blindado.
+    """
+    def __init__(self, expressao):
+        expressao = expressao.replace('^', '**') # Adapta para sintaxe Python
+        self.arvore = ast.parse(expressao, mode='eval').body
+        self.ambiente = {'sin': sen, 'cos': cos, 'tan': tan, 'exp': exp, 'ln': ln, 'e': math.e, 'pi': math.pi}
+
+    def __call__(self, x):
+        return self._avaliar_no(self.arvore, x)
+
+    def _avaliar_no(self, no, x):
+        if isinstance(no, ast.Constant): return no.value
+        elif isinstance(no, ast.Name):
+            if no.id == 'x': return x
+            if no.id in self.ambiente: return self.ambiente[no.id]
+            raise NameError(f"Variável ou função desconhecida: '{no.id}'")
+        elif isinstance(no, ast.BinOp):
+            esq = self._avaliar_no(no.left, x)
+            dir = self._avaliar_no(no.right, x)
+            if isinstance(no.op, ast.Add): return esq + dir
+            if isinstance(no.op, ast.Sub): return esq - dir
+            if isinstance(no.op, ast.Mult): return esq * dir
+            if isinstance(no.op, ast.Div): return esq / dir
+            if isinstance(no.op, ast.Pow): return esq ** dir
+        elif isinstance(no, ast.Call):
+            func = self._avaliar_no(no.func, x)
+            arg = self._avaliar_no(no.args[0], x)
+            return func(arg)
+        elif isinstance(no, ast.UnaryOp):
+            operando = self._avaliar_no(no.operand, x)
+            if isinstance(node.op, ast.USub): return -operando
+            if isinstance(node.op, ast.UAdd): return operando
+        raise TypeError(f"Operação matemática não suportada no nó: {type(no)}")
+
+# ==========================================
+# 3. ALGORITMOS DE CÁLCULO
+# ==========================================
+def calcular_limite(f, x0, tol=1e-7):
+    # Diferença central simples com aproximação progressiva
+    h = 0.1
+    for _ in range(15):
+        try:
+            esq = f(x0 - h)
+            dir = f(x0 + h)
+            if abs(esq - dir) < tol: return (esq + dir) / 2
+        except: pass
+        h /= 2
+    return f(x0 + 1e-10) # Fallback para aproximação lateral direita
+
+def calcular_integral(f, a, b, n=1000):
+    # Regra de Simpson Composta
+    if n % 2 != 0: n += 1
+    h = (b - a) / n
+    soma = f(a) + f(b)
+    for i in range(1, n, 2): soma += 4 * f(a + i * h)
+    for i in range(2, n-1, 2): soma += 2 * f(a + i * h)
+    return (h / 3) * soma
+
+# ==========================================
+# 4. INTERFACE DO USUÁRIO (CLI)
+# ==========================================
+def terminal_interativo():
+    print("="*60)
+    print(" MOTOR DE CÁLCULO DIFERENCIAL E INTEGRAL ".center(60, "="))
+    print(" Suporta: +, -, *, /, ^, sin(x), cos(x), tan(x), ln(x), exp(x)")
+    print(" Constantes: pi, e")
+    print("="*60)
+
+    while True:
+        expr = input("\n[1] Digite a função f(x) (ou 'q' para sair): ").strip().lower()
+        if expr == 'q': break
+        if not expr: continue
+
+        try:
+            f = FuncaoDinamica(expr)
+            # Teste rápido para validar a sintaxe
+            f(1.0) 
+        except Exception as e:
+            print(f"Erro ao interpretar a função: {e}")
+            continue
+
+        while True:
+            print(f"\n--- Função Ativa: f(x) = {expr} ---")
+            print("1. Avaliar f(x) num ponto")
+            print("2. Calcular Limite x -> a")
+            print("3. Calcular Derivada f'(x)")
+            print("4. Calcular Integral ∫ f(x) dx")
+            print("5. Inserir nova função")
+            
+            escolha = input("Escolha a operação: ").strip()
+
+            try:
+                if escolha == '1':
+                    ponto = float(input("Digite o valor de x: "))
+                    val = f(ponto)
+                    print(f"Resultado: f({ponto}) = {val.real if isinstance(val, NumeroDual) else val:.6f}")
+                
+                elif escolha == '2':
+                    ponto = float(input("Calcular limite tendendo a qual valor de x? "))
+                    res = calcular_limite(f, ponto)
+                    print(f"Resultado: Limite quando x->{ponto} = {res:.6f}")
+                
+                elif escolha == '3':
+                    ponto = float(input("Calcular a derivada em qual ponto x? "))
+                    # Magia dos Números Duais entra em ação aqui
+                    x_dual = NumeroDual(ponto, 1.0)
+                    resultado_dual = f(x_dual)
+                    print(f"Resultado: f'({ponto}) = {resultado_dual.dual:.6f}")
+                
+                elif escolha == '4':
+                    a = float(input("Limite inferior da integral (a): "))
+                    b = float(input("Limite superior da integral (b): "))
+                    area = calcular_integral(f, a, b)
+                    print(f"Resultado: ∫(de {a} até {b}) f(x) dx = {area:.6f}")
+                
+                elif escolha == '5':
+                    break
+                else:
+                    print("Opção inválida.")
+            except Exception as e:
+                print(f"Erro durante o cálculo matemático: {e}")
+
+if __name__ == "__main__":
+    terminal_interativo()

@@ -1,0 +1,25 @@
+saldo = float(input("Digite o saldo da conta em reais:"))
+verde = '\033[32m'
+vermelho = '\033[31m'
+reset = '\033[0m'
+azul = '\033[34m'
+if saldo > 0:
+    print(f"{verde}Saldo positivo{reset}")
+elif saldo < 0:
+    print(f"{vermelho}Saldo negativo, pague suas dividas caloteiro!{reset}")
+else:
+    print(f"{azul}Saldo neutro{reset}")
+
+#30: Branco/Preto (depende do tema do terminal)
+#31: Vermelho (Erro/Alerta)
+#32: Verde (Sucesso/Aprovação)
+#33: Amarelo (Aviso)
+#34: Azul
+#35: Magenta (Roxo)
+#36: Ciano (Azul claro)
+#37: Cinza
+
+#0: Normal (sem estilo)
+#1: Negrito (Bold)
+#4: Sublinhado (Underline)
+#7: Invertido (Letra preta com fundo branco, por exemplo)

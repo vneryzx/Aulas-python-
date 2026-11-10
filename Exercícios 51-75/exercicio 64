@@ -1,0 +1,12 @@
+n = int(input('Digite um numero [999 para encerrar]:'))
+soma = 0
+contador = 0
+while n != 999 :
+    print('\033[31mDigite denovo.\033[0m')
+    n = int(input('Digite um numero [999 para encerrar]:'))
+    soma += n
+    contador += 1
+    if n == 999:
+        print(f'\033[36mSoma dos números digitados: {soma}\033[0m')
+        print(f'\033[36mQuantidade de números digitados: {contador}\033[0m')
+        print('\033[32mPrograma encerrado. Até mais!\033[0m')

@@ -1,0 +1,26 @@
+n1 = int(input('Digite um valor:'))
+n2 = int(input('Digite outro valor:'))
+operacao = str(input('Digite a operação desejada: \n[1]soma, \n[2]multiplicação, \n[3]divisão \n[4]subtração \n[5]Sair do programa \nDigite o calculo desejado:')).strip().upper()[0]
+
+while operacao not in '12345':
+    print('\033[31mOperação inválida. Por favor, digite 1 para soma, 2 para multiplicação, 3 para divisão ou 4 para subtração.\033[0m')
+    operacao = str(input('Digite a operação desejada: \n[1]soma, \n[2]multiplicação, \n[3]divisão \n[4]subtração \n[5]Sair do programa  \nDigite o calculo desejado:')).strip().upper()[0]
+if operacao == '1':
+    resultado = n1 + n2
+    print(f'\033[32mO resultado da soma é: {resultado}\033[0m')
+elif operacao == '2':
+    resultado = n1 * n2
+    print(f'\033[32mO resultado da multiplicação é: {resultado}\033[0m')
+elif operacao == '3': 
+        if n2 or n1 == 0:
+            print('\033[31mErro: Divisão por zero não é permitida.\033[0m')
+        else:   
+            resultado = n1 / n2
+            print(f'\033[32mO resultado da divisão é: {resultado}\033[0m')
+elif operacao == '4':
+    resultado = n1 - n2
+    print(f'\033[32mO resultado da subtração é: {resultado}\033[0m')
+elif operacao == '5':
+    print('\033[34mSaindo do programa. Até mais!\033[0m')
+else:
+    print('\033[31mErro: Operação inválida.\033[0m')

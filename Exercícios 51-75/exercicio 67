@@ -1,0 +1,7 @@
+tabuada = int(input('\033[1;33mDigite um número para ver sua tabuada [digite um numero negativo para encerrar]:\033[m '))
+while tabuada >= 0:
+    print(f'Tabuada do {tabuada}:')
+    for i in range(1, 11):
+        print(f'{tabuada} x {i} = {tabuada * i}')
+    tabuada = int(input('\033[1;33mDigite um número para ver sua tabuada [digite um numero negativo para encerrar]:\033[m '))
+print('\033[32mPrograma encerrado. Obrigado por usar a tabuada!\033[m')

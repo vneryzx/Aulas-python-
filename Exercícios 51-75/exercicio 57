@@ -1,0 +1,5 @@
+sexo = str(input('Digite seu sexo: [M/F] ')).strip().upper()[0]
+while sexo not in 'MF':
+    print('\033[31mSexo inválido. Por favor, digite M para masculino, F para feminino\033[0m')
+    sexo = str(input('Digite seu sexo: [M/F] ')).strip().upper()[0]
+print(f'\033[32mSexo {sexo} registrado com sucesso!\033[0m')

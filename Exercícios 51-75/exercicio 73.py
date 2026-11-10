@@ -1,0 +1,13 @@
+times = 'corinthias', 'são paulo', 'palmeiras', 'chapecoense'
+alfabetica = sorted(times)
+print('-='*40)
+print(f'A lista de times: {times}')
+print('-='*40)
+print(f'Os times em ordem alfabetica: {alfabetica}')
+print('-='*40)
+print(f'Os 2 primeiros times são: {times[0:2]}')
+print('-='*40)
+print(f'Os 2 ultimos times são: {times[-2:]}')
+print('-='*40)
+print(f'São paulo esta na posicão {times.index('são paulo')+1}!')
+print('\033[32mPrograma concluido com sucesso!\033[m')

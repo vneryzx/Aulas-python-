@@ -1,0 +1,12 @@
+n = int(input('Digite um numero ou digite 0 para sair:'))
+media = 0
+contador = 0
+while n != 0:
+    media += n
+    contador += 1
+    n = int(input('Digite um numero ou digite 0 para sair:'))
+if contador > 0:
+    media /= contador
+    print(f'\033[32mA média dos números digitados é: {media:.2f}\033[0m')
+else:
+    print('\033[31mNenhum número foi digitado. Média não calculada.\033[0m')

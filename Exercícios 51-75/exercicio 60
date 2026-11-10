@@ -1,0 +1,13 @@
+from math import factorial
+import time
+print ('\033[36mBem-vindo ao programa de cálculo de fatorial!\033[0m')
+n = int(input('Digite um número inteiro para calcular o fatorial:'))
+print('\033[33mCalculando o fatorial...\033[0m')
+time.sleep(3)
+while n < 0:
+    print('\033[31mNúmero inválido. Por favor, digite um número inteiro não negativo.\033[0m')
+    n = int(input('Digite um número inteiro para calcular o fatorial:'))
+    print('\033[33mCalculando o fatorial...\033[0m')
+    time.sleep(3)
+fatorial = factorial(n)
+print(f'\033[32mO fatorial de {n} é: {fatorial}\033[0m')

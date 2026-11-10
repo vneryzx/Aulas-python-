@@ -1,0 +1,10 @@
+n = int(input('Digite o número de termos para calcular fibonacci:'))
+while n < 0:
+    print('\033[31mNúmero inválido. Por favor, digite um número inteiro não negativo.\033[0m')
+    n = int(input('Digite o número de termos para calcular fibonacci:'))
+a, b = 0, 1
+print(f'\033[36mSequência de Fibonacci até o {n}º termo:\033[0m')
+for i in range(n):
+    print(f'\033[32m{a}\033[0m', end=' ')
+    a, b = b, a + b
+print()

@@ -1,0 +1,27 @@
+from time import sleep
+tot18 = 0
+f20 = 0
+homem = 0
+while True:
+    idade = int(input('Idade: '))
+    sexo = ' '
+    while sexo not in 'MF':
+        sexo = str(input('Sexo: [M/F] ')).strip().upper()[0]
+    if sexo == 'F':
+        if idade < 20:
+            f20 += 1
+    if idade >= 18:
+        tot18 += 1
+    if sexo == 'M':
+        homem += 1
+    resp = ' '
+    while resp not in 'SN':
+        resp = str(input('Quer continuar? [S/N] ')).strip().upper()[0]
+    if resp == 'N':
+        break
+print('\033[37mCalculando...\033[m')
+sleep(3)
+print(f'\033[34mTotal de {tot18} pessoas tem mais de 18 anos de idade!\033[m')
+print(f'\033[35mTem {f20} mulheres com menos de 20 anos!\033[m')
+print(f'\033[33mTem {homem} homens cadastrados!!!\033[m')
+print('\033[31mAcabou\033[m')

@@ -1,0 +1,8 @@
+n = int(input('Digite um número [999 para encerrar]: '))
+soma = 0
+contador = 0
+while n != 999:
+    soma += n
+    contador += 1
+    n = int(input('Digite um número [999 para encerrar]: '))
+print(f'Foram digitados {contador} números e a soma entre eles é {soma}.')

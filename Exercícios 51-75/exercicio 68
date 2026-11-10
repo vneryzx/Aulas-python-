@@ -1,0 +1,23 @@
+from random import randint
+opcao = int(input('Digite: \n[1] para par \n[2] para impar \nSua escolha: '))
+par = int(input('Digite um numero de 0 a 10 para par ou impar: '))
+if opcao > 2:
+    print('\033[1;31mDesista dos seus sonhos e morra.\033[m')
+else:
+    while True:
+        computador = randint(0, 10)
+        total = par + computador
+        print(f'Voce jogou {par} e o computador jogou {computador}. Total de {total}')
+        if opcao == 1:
+            if total % 2 == 0:
+                print('\033[1;32mVoce venceu!\033[m')
+            else:
+                print('\033[1;31mVoce perdeu!\033[m')
+                break
+        elif opcao == 2:
+            if total % 2 == 1:
+                print('\033[1;32mVoce venceu!\033[m')
+            else:
+                print('\033[1;31mVoce perdeu!\033[m')
+                break
+        par = int(input('Digite um numero de 0 a 10 para par ou impar: '))

@@ -1,0 +1,14 @@
+pa = int(input('Digite o primeiro termo da progressão aritmética:'))
+razao = int(input('Digite a razão da progressão aritmética:'))
+while True:
+    n = int(input('Digite o número de termos que deseja mostrar (ou 0 para sair):'))
+    if n == 0:
+        print('\033[34mSaindo do programa. Até mais!\033[0m')
+        break
+    elif n < 0:
+        print('\033[31mNúmero inválido. Por favor, digite um número inteiro positivo ou 0 para sair.\033[0m')
+    else:
+        for i in range(n):
+            termo = pa + i * razao
+            print(f'\033[32m{termo}\033[0m', end=' ')
+        print()

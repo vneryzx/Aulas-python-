@@ -1,0 +1,28 @@
+total = prod1 = menor = cont = 0
+barato = ''
+print('=='*20)
+print('\033[1;33mMERCADO DO NERY\033[m')
+print('=='*20)
+while True:
+    nome = str(input('Nome do produto: ')).strip().upper()
+    preco = float(input('Valor: R$'))
+    cont += 1
+    total += preco
+    if preco > 1000:
+        prod1 += 1
+    if cont == 1 or preco < menor:
+        menor = preco
+        barato = nome
+    resp = ' '
+    while resp not in 'SN':
+        resp = str(input('Você quer continuar?[S/N]: ')).strip().upper()[0]
+    if resp == 'N':
+        break
+print(' ')
+print(f'Temos {prod1} produtos por mais de 1000R$!')
+print(' ')
+print(f'O total gasto foi {total:.2f}R$')
+print(' ')
+print(f'O produto mais barato foi a/o {barato} e custa R${menor:.2f}')
+print('=='*20)
+print('Programa encerrado')
